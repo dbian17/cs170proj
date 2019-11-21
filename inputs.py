@@ -12,7 +12,8 @@ def make_input(loc_size, home_size):
     #makes some random locations
     for x in range(loc_size):
         loc_names.append(''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k=10)))
-    home_names = np.random.choice(loc_names, home_size, replace = False)
+    home_names = np.random.choice(loc_names, home_size + 1, replace = False)
+    #home_names[home_size] will be the starting location
     #b = np.random.random_integers(0,1,size=(loc_size,loc_size))
     #b_symm = (b + b.T)//2
 
@@ -43,8 +44,36 @@ def make_input(loc_size, home_size):
         b_symm[v1][v2] = rand_edge
         b_symm[v2][v1] = rand_edge
 
-    print(loc_size)
-    print(home_size)
-    print(loc_names)
-    print(home_names)
-    print(b_symm)
+    filename = str(loc_size) + ".in"
+    f = open(filename, "w")
+
+    #number of list_locations
+    f.write(str(loc_size))
+    f.write("\n")
+    #number of homes
+    f.write(str(home_size))
+    f.write("\n")
+    #list of locations, separated by spaces
+    for loc_name in loc_names:
+        f.write(loc_name)
+        f.write(" ")
+    f.write("\n")
+    #list of homes, separated by spaces
+    for i in range(home_size):
+        f.write(home_names[i])
+        f.write(" ")
+    f.write("\n")
+    #starting/ending location
+    f.write(home_names[home_size])
+    f.write("\n")
+    #dumbass grid
+    for gridrow in b_symm:
+        for edge in gridrow:
+            if edge > 0:
+                f.write(str(edge))
+                f.write(" ")
+            else:
+                f.write("x ")
+        f.write("\n")
+
+    f.close()
