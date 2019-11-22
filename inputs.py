@@ -88,4 +88,4 @@ def make_input(loc_size, home_size):
 
     f.close()
 
-make_input(50, 25)
+make_input(200, 100)
