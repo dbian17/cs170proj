@@ -18,8 +18,8 @@ def make_input(loc_size, home_size):
     #b = np.random.random_integers(0,1,size=(loc_size,loc_size))
     #b_symm = (b + b.T)//2
 
-    a = 99999
-    b = 50000
+    a = 500
+    b = 999
 
     #start with no edges
     s = (loc_size, loc_size)
@@ -30,7 +30,7 @@ def make_input(loc_size, home_size):
         #pick a random node smaller than x
         random_v = np.random.randint(0, x)
         #makes a random edge length
-        rand_edge = np.random.randint(50000, 99999)
+        rand_edge = np.random.randint(a, b)
         #puts it in matwix such that it is symmetric
         b_symm[x][random_v] = rand_edge
         b_symm[random_v][x] = rand_edge
@@ -41,7 +41,7 @@ def make_input(loc_size, home_size):
         v2 = np.random.randint(0, loc_size)
         if v1 == v2:
             continue
-        rand_edge = np.random.randint(50000, 99999)
+        rand_edge = np.random.randint(a, b)
         b_symm[v1][v2] = rand_edge
         b_symm[v2][v1] = rand_edge
 

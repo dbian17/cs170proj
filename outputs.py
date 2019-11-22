@@ -19,6 +19,7 @@ def dfs_output(input_matrix, start):
     #call dfs helper for halp >w<
     dfs_helper(input_matrix, visited, input_matrix[start], start, dfs, dfs_result)
     dfs.append(start)
+    print(sum(dfs_result))
     return dfs
 
 def dfs_helper(input, visited, vertex, vertex_i, dfs, dfs_result):
