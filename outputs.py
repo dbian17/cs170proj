@@ -18,22 +18,36 @@ def dfs_output(input_matrix, start):
 
     #call dfs helper for halp >w<
     dfs_helper(input_matrix, visited, input_matrix[start], start, dfs, dfs_result)
-    dfs.append(start)
     print(sum(dfs_result))
     return dfs
 
+"""
+input - the adjacency matrix
+visited - nodes we have visited
+vertex - SHOULD BE the row
+vertex_i - vertex you are currently at
+dfs - our dfs traversal
+dfs_result - total distance traveled
+"""
+
 def dfs_helper(input, visited, vertex, vertex_i, dfs, dfs_result):
     visited[vertex_i] = True
+    print('visiting ' + str(vertex_i))
     dfs.append(vertex_i)
     if all(visited):
         return dfs
+    print(vertex)
+    #for each of the possible children
     for i in range(len(vertex)):
         if vertex[i] != 0:
             if (not visited[i]):
+                print('going to look at '+ str(vertex[i]))
                 dfs_result.append(vertex[i])
                 dfs_helper(input, visited, input[i], i, dfs, dfs_result)
                 dfs_result.append(vertex[i])
-                dfs.append(i)
+                dfs.append(vertex_i)
+                print('visiting ' + str(vertex_i))
+
     return dfs
 
 def create_output(loc_names, loc_size, home_size, homes, path):

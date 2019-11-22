@@ -56,6 +56,7 @@ def tests(input_data, output_data, params=[]):
     if len(output_data) - 2 != num_dropoffs:
         message += f'Number of dropoffs in output ({len(output_data) - 2}) does not match number stated ({num_dropoffs}).\n'
         cost = 'infinite'
+        print('droppo')
         return cost, message
     targets = []
     dropoffs = {}
