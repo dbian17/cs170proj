@@ -45,7 +45,7 @@ def make_input(loc_size, home_size):
         b_symm[v1][v2] = rand_edge
         b_symm[v2][v1] = rand_edge
 
-    path = dfs_output(b_symm) #output creation
+    path = dfs_output(b_symm, home_size) #output creation
     create_output(loc_names, loc_size, home_size, home_names, path)
 
     filename = str(loc_size) + ".in"

@@ -11,14 +11,14 @@ import random
 dfs = []
 dfs_result = []
 
-def dfs_output(input_matrix):
+def dfs_output(input_matrix, start):
     visited = []
     #unmark all vertices
     visited.extend([False]*len(input_matrix))
 
     #call dfs helper for halp >w<
-    dfs_helper(input_matrix, visited, input_matrix[0], 0, dfs, dfs_result)
-    dfs.append(0)
+    dfs_helper(input_matrix, visited, input_matrix[start], start, dfs, dfs_result)
+    dfs.append(start)
     return dfs
 
 def dfs_helper(input, visited, vertex, vertex_i, dfs, dfs_result):
@@ -51,7 +51,7 @@ def create_output(loc_names, loc_size, home_size, homes, path):
     f.write("\n")
 
     #homes of TAs dropped off at each location
-    for home in homes:
+    for home in homes[:len(homes)-1]:
         f.write(home)
         f.write(" ")
         f.write(home)
