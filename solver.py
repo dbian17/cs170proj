@@ -4,6 +4,7 @@ sys.path.append('..')
 sys.path.append('../..')
 import argparse
 import utils
+from outputs import dfs_output, create_output
 
 from student_utils import *
 """
@@ -25,11 +26,27 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
         A dictionary mapping drop-off location to a list of homes of TAs that got off at that particular location
         NOTE: both outputs should be in terms of indices not the names of the locations themselves
     """
+    startIndex = 0;
+    while(not list_of_locations[startIndex] == starting_car_location):
+        startIndex += 1
 
+    homeToIndex = {}
 
+    for loc in list_of_homes:
+        for i in range(len(list_of_locations)):
+            if list_of_locations[i] == loc:
+                homeToIndex[loc] = i
+                break
+    
 
+    path = dfs_output(adjacency_matrix, startIndex) 
 
-    pass
+    dropDict = {homeToIndex[index]: [homeToIndex[index]] for index in homeToIndex} #DFS mapping
+
+    #print(path)
+    #print(dropDict)
+
+    return path, dropDict
 
 
 """
@@ -45,6 +62,8 @@ and write solution output in terms of names to path_to_file + file_number + '.ou
 def convertToFile(path, dropoff_mapping, path_to_file, list_locs):
     string = ''
     for node in path:
+        print(len(list_locs))
+        print(node)
         string += list_locs[node] + ' '
     string = string.strip()
     string += '\n'
