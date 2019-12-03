@@ -18,8 +18,8 @@ def make_input(loc_size, home_size):
     #b = np.random.random_integers(0,1,size=(loc_size,loc_size))
     #b_symm = (b + b.T)//2
 
-    a = 500
-    b = 999
+    a = 5000
+    b = 9999
 
     #start with no edges
     s = (loc_size, loc_size)
@@ -89,3 +89,5 @@ def make_input(loc_size, home_size):
     f.close()
 
 make_input(200, 100)
+#make_input(100, 50)
+#make_input(50, 25)
