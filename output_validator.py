@@ -28,6 +28,8 @@ def validate_output(input_file, output_file, params=[]):
 def validate_all_outputs(input_directory, output_directory, params=[]):
     input_files = utils.get_files_with_extension(input_directory, '.in')
     output_files = utils.get_files_with_extension(output_directory, '.out')
+    print("input", input_files, "\n")
+    print("output_files", output_files, "\n")
 
     all_results = []
     for input_file in input_files:

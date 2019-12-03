@@ -43,7 +43,7 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
 
     dropDict = {homeToIndex[index]: [homeToIndex[index]] for index in homeToIndex} #DFS mapping
 
-    #print(path)
+    print(path)
     #print(dropDict)
 
     return path, dropDict
@@ -60,10 +60,13 @@ Convert solution with path and dropoff_mapping in terms of indices
 and write solution output in terms of names to path_to_file + file_number + '.out'
 """
 def convertToFile(path, dropoff_mapping, path_to_file, list_locs):
+    #print("path", path, '\n')
+    #print("drop", dropoff_mapping, '\n')
+    #print("list_loc", list_locs, '\n')
     string = ''
     for node in path:
-        print(len(list_locs))
-        print(node)
+        #print(len(list_locs))
+        #print(node)
         string += list_locs[node] + ' '
     string = string.strip()
     string += '\n'
