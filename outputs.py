@@ -12,13 +12,20 @@ dfs = []
 dfs_result = []
 
 def dfs_output(input_matrix, start):
+
+    #print(input_matrix)
+
     visited = []
+    dfs= []
     #unmark all vertices
     visited.extend([False]*len(input_matrix))
 
     #call dfs helper for halp >w<
     dfs_helper(input_matrix, visited, input_matrix[start], start, dfs, dfs_result)
+
+    dfs.append(start)
     #print(sum(dfs_result))
+
     return dfs
 
 """
@@ -34,24 +41,28 @@ def dfs_helper(input, visited, vertex, vertex_i, dfs, dfs_result):
     visited[vertex_i] = True
     #print('visiting ' + str(vertex_i))
     dfs.append(vertex_i)
+
     if all(visited):
         return dfs
+
+    
     #print(vertex)
     #for each of the possible children
     for i in range(len(vertex)):
-        if vertex[i] != 0:
+        if vertex[i] != "x":
             if (not visited[i]):
                 #print('going to look at '+ str(vertex[i]))
-                dfs_result.append(vertex[i])
+                #dfs_result.append(vertex[i])
                 dfs_helper(input, visited, input[i], i, dfs, dfs_result)
-                dfs_result.append(vertex[i])
-                dfs.append(vertex_i)
+                #dfs_result.append(vertex[i])
+        #original (pre david destruction) -> dfs.append(vertex_i)
+                dfs.append(i) # <- post david destruction   
                 #print('visiting ' + str(vertex_i))
 
     return dfs
 
-def create_output(loc_names, loc_size, home_size, homes, path):
-    filename = str(loc_size) + ".out"
+def create_output(loc_names, output_name, home_size, homes, path):
+    filename = str(output_name) + ".out"
     f = open(filename, "w")
 
     #path the car took

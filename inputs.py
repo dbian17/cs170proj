@@ -51,7 +51,7 @@ def make_input(loc_size, home_size):
             start+= i
 
 
-    path = dfs_output(b_symm, start) #output creation
+    path= dfs_output(b_symm, start) #output creation
     create_output(loc_names, loc_size, home_size, home_names, path)
 
     filename = str(loc_size) + ".in"

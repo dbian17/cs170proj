@@ -39,4 +39,5 @@ def input_to_output(input_file, output_directory):
         os.path.join(output_directory, os.path.basename(input_file))
         .replace("input", "output")
         .replace(".in", ".out")
+        .replace("\\", "/")
     )
