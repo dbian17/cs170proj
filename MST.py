@@ -4,6 +4,28 @@
 
 import numpy as np
 
+
+#delete k-1 most expensive edges to create k clusters
+def clusterify(matrix, k):
+	mst = kruskal(matrix)
+
+	sorted_edges = collect_edges(mst, 0, lambda e: -1 * matrix[e[0]][e[1]])
+
+	counter = 0
+
+	for e in sorted_edges:
+		u, v = e
+		mst[u][v] = 0
+		mst[v][u] = 0
+		counter += 1
+		
+		if counter == k-1:
+			break
+
+	return mst
+
+
+
 #kruskal alog -> returns adjancy matrix of the mst
 def kruskal(matrix):
     # initialize MST
@@ -11,15 +33,8 @@ def kruskal(matrix):
     n_vertices = len(matrix)
     MST = np.full((n_vertices, n_vertices), 0)
     
-    # collect all edges from graph G
-    edges = set()
-    for j in range(n_vertices):
-        for k in range(j):
-            if matrix[j][k] != "x": 
-                edges.add((j,k))
-
     # sort all edges in graph G by weights from smallest to largest
-    sorted_edges = sorted(edges, key = lambda e: matrix[e[0]][e[1]])
+    sorted_edges = collect_edges(matrix, "x", lambda e: matrix[e[0]][e[1]])
     
     uf = UF(n_vertices)
 
@@ -31,15 +46,14 @@ def kruskal(matrix):
         # if not, connect them and add this edge to the MST
         uf.union(u, v)
 
-        MST[u, v] = matrix[u, v]
-        MST[v, u] = matrix[u, v]
+        MST[u][v] = matrix[u][v]
+        MST[v][u] = matrix[u][v]
 
         if (np.count_nonzero(MST) == 2*(n_vertices - 1)):
         	break
 
 	return MST
     #NOTE: MST is adjancy matrix with "x" replaced by 0's
-
 
 
 class UF:
@@ -63,3 +77,16 @@ class UF:
         while p != self._id[p]:
             p = self._id[p]
         return p
+
+
+#collects edges of matrix and returns set of ordered edges in form ((u1,v1)...)
+def collect_edges(matrix, zero, sort):
+	n_vertices = len(matrix)
+	edges = set()
+
+	for j in range(n_vertices):
+        for k in range(j):
+            if matrix[j][k] != zero: 
+                edges.add((j,k))
+
+    return sorted(edges, key = sort)
