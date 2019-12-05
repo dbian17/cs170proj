@@ -18,7 +18,7 @@ def clusterify(matrix, k):
 		mst[u][v] = 0
 		mst[v][u] = 0
 		counter += 1
-		
+
 		if counter == k-1:
 			break
 
@@ -31,7 +31,7 @@ def kruskal(matrix):
     # initialize MST
     
     n_vertices = len(matrix)
-    MST = np.full((n_vertices, n_vertices), 0)
+    mst = np.full((n_vertices, n_vertices), 0)
     
     # sort all edges in graph G by weights from smallest to largest
     sorted_edges = collect_edges(matrix, "x", lambda e: matrix[e[0]][e[1]])
@@ -46,13 +46,13 @@ def kruskal(matrix):
         # if not, connect them and add this edge to the MST
         uf.union(u, v)
 
-        MST[u][v] = matrix[u][v]
-        MST[v][u] = matrix[u][v]
+        mst[u][v] = matrix[u][v]
+        mst[v][u] = matrix[u][v]
 
-        if (np.count_nonzero(MST) == 2*(n_vertices - 1)):
+        if (np.count_nonzero(mst) == 2*(n_vertices - 1)):
         	break
 
-	return MST
+	return mst
     #NOTE: MST is adjancy matrix with "x" replaced by 0's
 
 
