@@ -35,11 +35,14 @@ returns: a list that represents the vehicle route and a dictionary that represen
 def runner(list_of_locations, list_of_homes, starting_car_location, num_clusters, adjacency_matrix, linkage):
     g, msg = adjacency_matrix_to_graph(adjacency_matrix)
     home_indices = home_names_to_indices(list_of_homes, list_of_locations)
+    print('number of homes is '+ str(len(home_indices)))
     home_distance_matrix = make_home_distance_matrix(g, home_indices)
     distance_matrix = make_distance_matrix(g, len(list_of_locations))
     clustering = make_clusters(num_clusters, linkage, home_distance_matrix)
+    print('number of clustering is '+ str(len(home_indices)))
     clusters = key_to_clusters(clustering, home_indices)
     bstops = all_bus_stop(clusters, distance_matrix)
+    print('we will have ' + str(len(bstops)) + ' bus stops')
     starting_index = index_of_start(starting_car_location, list_of_locations)
     stops = [starting_index] + bstops
     distance_matrix_of_stops =  make_home_distance_matrix(g, stops)
@@ -209,6 +212,7 @@ params: clusters - list of cluster, bus stops - list of bus stops
 returns: dictionary of drop off locations + hoesm
 '''
 def dropoff_dict(clusters, bus_stops):
+    print(clusters)
     mydict = {}
     for i in range(len(clusters)):
         mydict[bus_stops[i]] = clusters[i]
