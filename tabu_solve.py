@@ -60,6 +60,7 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
         neighborhood = [i for i in range(max(1, k - size/20), min(k + size/20, size))]
         print(neighborhood)
 
+        changed = False
         #finds best neighbor
         for neighbor in neighborhood:
             if (neighbor not in rankings and not in visted):
@@ -71,8 +72,10 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
                     local_best_dict = curr_drop
                     local_best_cost = curr_cost
                     local_best_cluster = neighbor
-
-        rankings.append(local_best_cluster)
+                    changed = True
+        #if neighbors provided better cost, add it to rankings
+        if (changed):
+            rankings.append(local_best_cluster)
         cluster_sol[local_best_cluster] = [local_best_route, local_best_dict, local_best_cost]
         
         if local_best_cost < best_cost:
@@ -81,10 +84,11 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
             best_cost = local_best_cost
             best_cluster = local_best_cluster
 
-        
-        k = rankings.pop()
+        #sort local optima based on cost
+        rankings.sort(reverse = True, key = lambda i: cluster_sol[i][2])
 
-        #if local sitl lbest, try different neighbrohood?
+        #search thru most opitmal local_min for next iteration
+        k = rankings.pop()
 
     return cluster_sol[best_cluster][0], cluster_sol[best_cluster][1]
 
