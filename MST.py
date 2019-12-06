@@ -6,11 +6,19 @@ import numpy as np
 import networkx as nx
 
 #return the centers of each cluster
-def clusterify(mst,matrix, k, list_of_homes):
+def clusterify(mst, matrix, k, list_of_homes):
 	n = len(mst)
 	sorted_edges = collect_edges(mst, 0.0, lambda e: -1 * mst[e[0]][e[1]])
 
 	counter = 0
+
+	for i in range(n):
+		for j in range(n):
+			if matrix[i][j] == "x":
+				matrix[i][j] = 0.0
+
+	matrix = np.array(matrix)
+	#print(matrix)
 
 	#delete k-1 most expensive edges to create k clusters
 	for e in sorted_edges:
@@ -60,8 +68,6 @@ def clusterify(mst,matrix, k, list_of_homes):
 
 		for node1 in curr_cluster:
 			for node2 in curr_cluster:
-				if matrix[node1][node2] == "x":
-					matrix[node1][node2] = 0  #check if you need to use matrix otherwise keep destructing
 				curr_matrix[node1][node2] = matrix[node1][node2]
 
 	#find which homes belong to which cluster
@@ -97,7 +103,17 @@ def clusterify(mst,matrix, k, list_of_homes):
 
 		centers[c] = min_cen
 
-	return {centers[c]:cluster_homes[c] for c in range(k)}
+	#calculate distances between centers
+	main_graph = nx.Graph(matrix)
+	c_distances = [[0 for i in centers] for i in centers]
+
+	for i in range(len(centers)):
+		for j in range(i):
+			d = nx.dijkstra_path_length(main_graph, centers[i], centers[j])
+			c_distances[i][j] = d
+			c_distances[j][i] = d
+
+	return c_distances, centers, {centers[c]:cluster_homes[c] for c in range(k)}
 
 
 #kruskal alog -> returns adjancy matrix of the mst
