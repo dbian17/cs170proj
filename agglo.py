@@ -10,10 +10,22 @@ import student_utils as stu
 
 #something stupid for later
 def mega_runner(list_of_locations, list_of_homes, starting_car_location, adjacency_matrix):
+    best_stops = -1
+    best_cost = float("inf")
+    best_dict = {}
+    best_route = []
     for i in range(1, len(list_of_homes)+1):
         cr, do, cost = runner(list_of_locations, list_of_homes,
-                              starting_car_location, i, adjacency_matrix, 'average')
+                              starting_car_location, i, adjacency_matrix, 'complete')
         print("with " + str(i) + " stops our cost is " + str(cost))
+        if best_cost > cost:
+            best_stops = i
+            best_cost = cost
+            best_dict = do
+            best_route = cr
+    return best_route, best_dict, best_cost
+
+
 
 '''
 params: list of locations, list of homes, string for starting, number of bus stop clusters, adjacency matrix
@@ -32,7 +44,6 @@ def runner(list_of_locations, list_of_homes, starting_car_location, num_clusters
     stops = [starting_index] + bstops
     distance_matrix_of_stops =  make_home_distance_matrix(g, stops)
     bus_route = route(distance_matrix_of_stops, 0)
-    print(bus_route)
     for i in range(len(bus_route)):
         bus_route[i] = stops[bus_route[i]]
     complete_route = bus_stop_routing_to_complete_routing(bus_route, g)
@@ -85,6 +96,7 @@ def make_home_distance_matrix(raoG, home_indices_in_locations):
     n = len(home_indices_in_locations)
     distances=np.zeros((n,n))
     # distances[m, k] is the length of the shortest path between i and j
+    #print(home_indices_in_locations)
     for i in all_vertex_shortest_distances:
         if i[0] in home_indices_in_locations:
             for j in range(n):
@@ -144,7 +156,7 @@ params: distances-distance matrix, cluster - cluster we lookin at
 returns: best bus stop for our cluster
 '''
 def best_bus_stop(distances, cluster):
-    mine = 5000000 #min distance
+    mine = float("inf") #min distance
     min_index = -1 #best bus stop
     for row in range(len(distances)):
         nom = 0;
@@ -272,7 +284,7 @@ def route(bus_stop_matrix, starting_point):
     routing.AddDimension(
         transit_callback_index,
         0,  # no slack
-        90000000000,  # vehicle maximum travel distance
+        9223372036854775807,  # vehicle maximum travel distance
         True,  # start cumul to zero
         dimension_name)
     distance_dimension = routing.GetDimensionOrDie(dimension_name)

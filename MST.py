@@ -25,7 +25,7 @@ def clusterify(mst,matrix, k, list_of_homes):
 
 	#print(mst)
 	#clusters is a list of sets, ith entry is nodes in ith cluster
-	clusters = [set() for i in range(k)]
+	clusters = [[] for i in range(k)]
 	#checks if vertex has been visited or not
 	visited = set()
 	#queue for DFS
@@ -45,7 +45,7 @@ def clusterify(mst,matrix, k, list_of_homes):
 		curr = fringe.pop()
 
 		if curr not in visited:
-			clusters[c].add(curr)
+			clusters[c].append(curr)
 			visited.add(curr)
 			for i in range(n):
 				if mst[curr][i] != 0:
@@ -97,7 +97,6 @@ def clusterify(mst,matrix, k, list_of_homes):
 
 		centers[c] = min_cen
 
-	#print({centers[c]:cluster_homes[c] for c in range(k)})
 	return {centers[c]:cluster_homes[c] for c in range(k)}
 
 
