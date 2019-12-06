@@ -27,9 +27,8 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
         A dictionary mapping drop-off location to a list of homes of TAs that got off at that particular location
         NOTE: both outputs should be in terms of indices not the names of the locations themselves
     """
-    #route, dropoffs, cost = agglo.runner(list_of_locations, list_of_homes, starting_car_location, 2, adjacency_matrix, 'average')
+    #route, dropoffs, cost = agglo.runner(list_of_locations, list_of_homes, starting_car_location, 44, adjacency_matrix, 'average')
     route, dropoffs, cost = agglo.mega_runner(list_of_locations, list_of_homes, starting_car_location, adjacency_matrix)
-
     return route, dropoffs
 
 
