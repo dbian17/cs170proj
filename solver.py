@@ -5,6 +5,7 @@ sys.path.append('../..')
 import argparse
 import utils
 from outputs import dfs_output, create_output
+import agglo
 
 from student_utils import *
 """
@@ -26,27 +27,10 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
         A dictionary mapping drop-off location to a list of homes of TAs that got off at that particular location
         NOTE: both outputs should be in terms of indices not the names of the locations themselves
     """
-    startIndex = 0;
-    while(not list_of_locations[startIndex] == starting_car_location):
-        startIndex += 1
+    #runner(list_of_locations, list_of_homes, starting_car_location, num_clusters, adjacency_matrix, linkage):
+    route, dropoffs, cost = agglo.runner(list_of_locations, list_of_homes, starting_car_location, 10, adjacency_matrix, 'average')
 
-    homeToIndex = {}
-
-    for loc in list_of_homes:
-        for i in range(len(list_of_locations)):
-            if list_of_locations[i] == loc:
-                homeToIndex[loc] = i
-                break
-    
-
-    path = dfs_output(adjacency_matrix, startIndex) 
-
-    dropDict = {homeToIndex[index]: [homeToIndex[index]] for index in homeToIndex} #DFS mapping
-
-    print(path)
-    #print(dropDict)
-
-    return path, dropDict
+    return route, dropoffs
 
 
 """
