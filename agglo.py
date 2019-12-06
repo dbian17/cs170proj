@@ -1,8 +1,6 @@
 import numpy as np
 import random
 import networkx as nx
-from IPython.display import Image
-import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering, FeatureAgglomeration
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
@@ -40,7 +38,7 @@ def thicc_runner(list_of_locations, list_of_homes, starting_car_location, adjace
             best_cost = cost
             best_dict = do
             best_route = cr
-        i = i + 10
+        i = i + 2
     return best_route, best_dict, best_cost
 
 
@@ -241,37 +239,47 @@ def dropoff_dict(clusters, bus_stops):
     return mydict
 
 
+'''
+These three functions below were largely inspired by ortools tutorial on TSP.
+https://developers.google.com/optimization/routing/vrp
+
+The functions and classes that we used are listed below. These can be found at
+https://developers.google.com/optimization/reference/python/constraint_solver/pywrapcp
+
+def Value(self, var)
+def Start(self, assignment)
+def IsEnd(self, index)
+def IndexToNode(self, index)
+def NextVar(self, index)
+class RoutingIndexManager (*args)
+class RoutingModel (*args)
+def RegisterTransitCallback(self, callback)
+def SetArcCostEvaluatorOfAllVehicles(self, evaluator_index)
+def AddDimension(self, evaluator_index, slack_max, capacity, fix_start_cumul_to_zero, name)
+def GetDimensionOrDie(self, dimension_name)
+
+
+
+'''
+
 def create_data_model(bus_stop_matrix, starting_point):
     """Stores the data for the problem."""
     data = {}
-    data['distance_matrix'] = bus_stop_matrix
     data['num_vehicles'] = 1
     data['depot'] = starting_point
+    data['distance_matrix'] = bus_stop_matrix
     return data
 
 
-def print_solution(data, manager, routing, solution):
-    """Prints solution on console."""
+def get_route(manager, routing, solution):
     doritos = []
-    max_route_distance = 0
-    for vehicle_id in range(data['num_vehicles']):
-        index = routing.Start(vehicle_id)
-        plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
-        route_distance = 0
-        while not routing.IsEnd(index):
-            plan_output += ' {} -> '.format(manager.IndexToNode(index))
-            doritos.append(manager.IndexToNode(index))
-            previous_index = index
-            index = solution.Value(routing.NextVar(index))
-            route_distance += routing.GetArcCostForVehicle(
-                previous_index, index, vehicle_id)
-        plan_output += '{}\n'.format(manager.IndexToNode(index))
+    index = routing.Start(0)
+    while not routing.IsEnd(index):
         doritos.append(manager.IndexToNode(index))
-        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
-        #print(plan_output)
-        max_route_distance = max(route_distance, max_route_distance)
-    #print('Maximum of the route distances: {}m'.format(max_route_distance))
-    return doritos, route_distance
+        previous_index = index
+        index = solution.Value(routing.NextVar(index))
+        doritos.append(manager.IndexToNode(index))
+    return doritos
 
 
 '''
@@ -279,55 +287,29 @@ params: bus stop matrix (includes starting point), index of starting/ending poin
 returns: a route IN TERMS OF bus stop matrix
 '''
 def route(bus_stop_matrix, starting_point):
-    """Solve the CVRP problem."""
 
-    # Instantiate the data problem.
-    data = create_data_model(bus_stop_matrix, starting_point)
-
-    # Create the routing index manager.
-    manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
-                                           data['num_vehicles'], data['depot'])
-
-    # Create Routing Model.
-    routing = pywrapcp.RoutingModel(manager)
-
-
-    # Create and register a transit callback.
-    def distance_callback(from_index, to_index):
-        """Returns the distance between the two nodes."""
-        # Convert from routing variable Index to distance matrix NodeIndex.
+    def distance_between_v(from_index, to_index):
         from_node = manager.IndexToNode(from_index)
         to_node = manager.IndexToNode(to_index)
         return data['distance_matrix'][from_node][to_node]
 
-    transit_callback_index = routing.RegisterTransitCallback(distance_callback)
-
-    # Define cost of each arc.
+    data = create_data_model(bus_stop_matrix, starting_point)
+    manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']), data['num_vehicles'], data['depot'])
+    routing = pywrapcp.RoutingModel(manager)
+    transit_callback_index = routing.RegisterTransitCallback(distance_between_v)
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
 
-    # Add Distance constraint.
     dimension_name = 'Distance'
-    routing.AddDimension(
-        transit_callback_index,
-        0,  # no slack
-        9223372036854775807,  # vehicle maximum travel distance
-        True,  # start cumul to zero
-        dimension_name)
+    routing.AddDimension(transit_callback_index,0,9223372036854775807, True, dimension_name)
     distance_dimension = routing.GetDimensionOrDie(dimension_name)
     distance_dimension.SetGlobalSpanCostCoefficient(100)
 
-    # Setting first solution heuristic.
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    search_parameters.first_solution_strategy = (
-        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
-
-    # Solve the problem.
+    search_parameters.first_solution_strategy = (routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
     solution = routing.SolveWithParameters(search_parameters)
 
-
-    # Print solution on console.
     if solution:
-        route_sol, memes = print_solution(data, manager, routing, solution)
+        route_sol = get_route(manager, routing, solution)
         return route_sol
 
     return None
