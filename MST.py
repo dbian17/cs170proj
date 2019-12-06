@@ -6,12 +6,9 @@ import numpy as np
 import networkx as nx
 
 #return the centers of each cluster
-def clusterify(matrix, k, list_of_homes):
-	mst = kruskal(matrix)
-	n = len(matrix)
-	#print(mst)
-
-	sorted_edges = collect_edges(mst, 0, lambda e: -1 * matrix[e[0]][e[1]])
+def clusterify(mst,matrix, k, list_of_homes):
+	n = len(mst)
+	sorted_edges = collect_edges(mst, 0.0, lambda e: -1 * mst[e[0]][e[1]])
 
 	counter = 0
 
@@ -67,16 +64,14 @@ def clusterify(matrix, k, list_of_homes):
 					matrix[node1][node2] = 0  #check if you need to use matrix otherwise keep destructing
 				curr_matrix[node1][node2] = matrix[node1][node2]
 
-	#print(cluster_matrices)
-
 	#find which homes belong to which cluster
-	cluster_homes = [set() for i in range(k)]
+	cluster_homes = [[] for i in range(k)]
 	#print(cluster_homes)
 	for h in list_of_homes:
 		c = 0
 		while h not in clusters[c]:
 			c += 1
-		cluster_homes[c].add(h)
+		cluster_homes[c].append(h)
 
 	#print(cluster_homes)
 
@@ -102,8 +97,8 @@ def clusterify(matrix, k, list_of_homes):
 
 		centers[c] = min_cen
 
-	#print(centers)
-	return centers
+	#print({centers[c]:cluster_homes[c] for c in range(k)})
+	return {centers[c]:cluster_homes[c] for c in range(k)}
 
 
 #kruskal alog -> returns adjancy matrix of the mst

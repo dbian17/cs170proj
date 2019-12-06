@@ -8,4 +8,4 @@ matrix = [["x",7,"x",5,"x","x","x"],
 		  ["x","x","x",6,8,"x",11],
 		  ["x","x","x","x",9,11,"x"]
 		  ]
-clusterify(matrix, 3, [0,2,6])
+clusterify(kruskal(matrix), matrix, 3, [0,2,6])
