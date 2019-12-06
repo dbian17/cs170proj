@@ -212,18 +212,12 @@ params: clusters - list of cluster, bus stops - list of bus stops
 returns: dictionary of drop off locations + hoesm
 '''
 def dropoff_dict(clusters, bus_stops):
-    print(clusters)
-    print(bus_stops)
-    print('we haave cluster amt '+ str(len(clusters)))
-    print('we have bus stop amt ' + str(len(bus_stops)))
     mydict = {}
     for i in range(len(clusters)):
         if bus_stops[i] in mydict:
             mydict[bus_stops[i]].extend(clusters[i])
         else:
             mydict[bus_stops[i]] = clusters[i]
-    print(mydict)
-    print('dic is size + ' + str(len(mydict)))
     return mydict
 
 
