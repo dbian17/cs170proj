@@ -29,6 +29,7 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
     """
     #route, dropoffs, cost = agglo.runner(list_of_locations, list_of_homes, starting_car_location, 44, adjacency_matrix, 'average')
     route, dropoffs, cost = agglo.mega_runner(list_of_locations, list_of_homes, starting_car_location, adjacency_matrix)
+    #route, dropoffs, cost = agglo.thicc_runner(list_of_locations, list_of_homes, starting_car_location, adjacency_matrix)
     return route, dropoffs
 
 

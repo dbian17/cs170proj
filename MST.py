@@ -6,11 +6,10 @@ import numpy as np
 import networkx as nx
 
 #return the centers of each cluster
-def clusterify(mst, matrix, k, list_of_homes):
+def clusterify(mst, matrix, k, list_of_homes, start_index):
+	#print("clusteify-----")
 	n = len(mst)
 	sorted_edges = collect_edges(mst, 0.0, lambda e: -1 * mst[e[0]][e[1]])
-
-	counter = 0
 
 	for i in range(n):
 		for j in range(n):
@@ -18,18 +17,24 @@ def clusterify(mst, matrix, k, list_of_homes):
 				matrix[i][j] = 0.0
 
 	matrix = np.array(matrix)
-	#print(matrix)
 
+	#for j in range(n):
+	#	print(j,":",[i for i in range(n) if mst[i][j] > 0])
 	#delete k-1 most expensive edges to create k clusters
+	counter = 0
+	#print(sorted_edges)
 	for e in sorted_edges:
+
+		if counter == k-1:
+			break
+
 		u, v = e
 		mst[u][v] = 0
 		mst[v][u] = 0
 		counter += 1
 		#print("removed", (u,v))
-
-		if counter == k-1:
-			break
+	#for j in range(n):
+	#	print(j,":",[i for i in range(n) if mst[i][j] > 0])
 
 	#print(mst)
 	#clusters is a list of sets, ith entry is nodes in ith cluster
@@ -42,22 +47,29 @@ def clusterify(mst, matrix, k, list_of_homes):
 	start = 0
 	c = -1
 	
+
 	while(len(visited) < n):
 		#fringe empty means done exploring, move onto next cluster
 		if len(fringe) == 0:
 			c += 1
 			while(start in visited):
 				start += 1
+			#print(c , start)
 			fringe.append(start)
-
+		
+		#print("visited", visited)
 		curr = fringe.pop()
-
+		#print("fringe", fringe)
+		#print(k)
+		#print(c)
+		#print(clusters)
 		if curr not in visited:
 			clusters[c].append(curr)
 			visited.add(curr)
 			for i in range(n):
-				if mst[curr][i] != 0:
+				if mst[curr][i] != 0.0 and i not in visited:
 					fringe.append(i)
+		#print("fringe", fringe)
 
 	#print(clusters)
 	#create adjacency matrix for each cluster
@@ -84,7 +96,7 @@ def clusterify(mst, matrix, k, list_of_homes):
 	#create graphs for each cluster
 	graphs = [nx.Graph(cluster_matrices[c]) for c in range(k)]
 
-	#find shortest distance from nodes to homes in each cluster
+	#find center node of each cluster
 	centers = [0 for c in range(k)]
 	
 	for c in range(k):
@@ -103,17 +115,20 @@ def clusterify(mst, matrix, k, list_of_homes):
 
 		centers[c] = min_cen
 
-	#calculate distances between centers
+	#calculate distances between centers as well as start point
 	main_graph = nx.Graph(matrix)
-	c_distances = [[0 for i in centers] for i in centers]
+	c_distances = [[0 for i in range(k + 1)] for i in range(k + 1)]
+	stops = [start_index]
+	stops.extend(centers)
+	#print("stops", stops)
 
-	for i in range(len(centers)):
+	for i in range(len(stops)):
 		for j in range(i):
-			d = nx.dijkstra_path_length(main_graph, centers[i], centers[j])
+			d = nx.dijkstra_path_length(main_graph, stops[i], stops[j])
 			c_distances[i][j] = d
 			c_distances[j][i] = d
 
-	return c_distances, centers, {centers[c]:cluster_homes[c] for c in range(k)}
+	return c_distances, stops, {centers[c]:cluster_homes[c] for c in range(k)}, main_graph
 
 
 #kruskal alog -> returns adjancy matrix of the mst

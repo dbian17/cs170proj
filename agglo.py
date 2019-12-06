@@ -3,7 +3,7 @@ import random
 import networkx as nx
 from IPython.display import Image
 import matplotlib.pyplot as plt
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering, FeatureAgglomeration
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 import student_utils as stu
@@ -25,6 +25,23 @@ def mega_runner(list_of_locations, list_of_homes, starting_car_location, adjacen
             best_route = cr
     return best_route, best_dict, best_cost
 
+def thicc_runner(list_of_locations, list_of_homes, starting_car_location, adjacency_matrix):
+    best_stops = -1
+    best_cost = float("inf")
+    best_dict = {}
+    best_route = []
+    i = 1
+    while i <len(list_of_homes)+1:
+        cr, do, cost = runner(list_of_locations, list_of_homes,
+                              starting_car_location, i, adjacency_matrix, 'average')
+        print("with " + str(i) + " stops our cost is " + str(cost))
+        if best_cost > cost:
+            best_stops = i
+            best_cost = cost
+            best_dict = do
+            best_route = cr
+        i = i + 10
+    return best_route, best_dict, best_cost
 
 
 '''
@@ -39,6 +56,7 @@ def runner(list_of_locations, list_of_homes, starting_car_location, num_clusters
     home_distance_matrix = make_home_distance_matrix(g, home_indices)
     distance_matrix = make_distance_matrix(g, len(list_of_locations))
     clustering = make_clusters(num_clusters, linkage, home_distance_matrix)
+    #clustering = make_feat_clusters(num_clusters, home_distance_matrix)
     #print('number of clustering is '+ str(len(home_indices)))
     clusters = key_to_clusters(clustering, home_indices)
     bstops = all_bus_stop(clusters, distance_matrix)
@@ -137,6 +155,8 @@ def make_clusters(num_clusters, linkage_type, distance_matrix):
                                          affinity='precomputed').fit_predict(distance_matrix)
     return clustering
 
+
+
 '''
 params: cluster key list [0, 0, 0, 1], home indices in locations [2, 3, 4, 5]
 returns: list of lists organized by cluster
@@ -212,18 +232,12 @@ params: clusters - list of cluster, bus stops - list of bus stops
 returns: dictionary of drop off locations + hoesm
 '''
 def dropoff_dict(clusters, bus_stops):
-    #print(clusters)
-    #print(bus_stops)
-    #print('we haave cluster amt '+ str(len(clusters)))
-    #print('we have bus stop amt ' + str(len(bus_stops)))
     mydict = {}
     for i in range(len(clusters)):
         if bus_stops[i] in mydict:
             mydict[bus_stops[i]].extend(clusters[i])
         else:
             mydict[bus_stops[i]] = clusters[i]
-    #print(mydict)
-    #print('dic is size + ' + str(len(mydict)))
     return mydict
 
 
