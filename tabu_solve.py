@@ -1,11 +1,9 @@
 import os
 import sys
-sys.path.append('..')
-sys.path.append('../..')
 import argparse
 import utils
 from outputs import dfs_output, create_output
-import agglo
+from agglo import *
 
 from student_utils import *
 """
@@ -33,49 +31,64 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
     
     
     size = len(list_of_homes)
-    #keeps track of which # clusters has best solution
-    rankings.append()
+     
     #maps # clusters to its solution
     cluster_sol = [[] for c in range(1, size + 1)]
     #initialize start of search
-    best_cluster = size/2
+    best_cluster = size//2
     k = best_cluster
+    #keeps track of which # clusters has best solution
     rankings = [k]
 
     best_route, best_dict, best_cost = runner(list_of_locations, list_of_homes,
                                               starting_car_location, k, adjacency_matrix, 'average')
     cluster_sol[k] = [best_route, best_dict, best_cost]
     visited = set()
-    visted.add(k)
+    visited.add(k)
+    iterations = 0
 
-    while (k > 1 and k < size and len(visited) < size):
+    while (k > 1 and k < size and len(visited) < size and iterations < 6):
         if len(rankings) == 0:
             break
 
-        local_best_route = cluster_sol[k][0]
-        local_best_dict = cluster_sol[k][1]
-        local_best_cost = cluster_sol[k][2]
-        local_best_cluster = k
+        #search thru most opitmal local_min for next iteration
+        print(rankings)
+        if len(rankings) > size//10:
+            #sort local optima based on cost
+            #rankings.sort(reverse = True, key = lambda i: cluster_sol[i][2])
+            rankings.pop(0)
+        #k = rankings[len(rankings) - 1]
+        print(k)
 
-        neighborhood = [i for i in range(max(1, k - size/20), min(k + size/20, size))]
+        local_best_route = []
+        local_best_dict = {}
+        local_best_cost = float("inf")
+
+        neighborhood = [i for i in range(max(1, k - size//10), min(k + size//10, size))]
         print(neighborhood)
 
-        changed = False
         #finds best neighbor
         for neighbor in neighborhood:
-            if (neighbor not in rankings and not in visted):
-                visited.add(neighbor)
-                curr_route, curr_drop, curr_cost = runner(list_of_locations, list_of_homes,
-                                              starting_car_location, neighbor, adjacency_matrix, 'average')
+            if (neighbor not in rankings):
+                
+                #if the cluster solution already found
+                if len(cluster_sol[neighbor]) > 0:
+                    curr_route = cluster_sol[neighbor][0]
+                    curr_drop = cluster_sol[neighbor][1]
+                    curr_cost = cluster_sol[neighbor][2]
+                else:
+                    curr_route, curr_drop, curr_cost = runner(list_of_locations, list_of_homes,
+                                                  starting_car_location, neighbor, adjacency_matrix, 'average')
+                    cluster_sol[neighbor] = [curr_route, curr_drop, curr_cost] 
+
                 if (curr_cost < local_best_cost):
                     local_best_route = curr_route
                     local_best_dict = curr_drop
                     local_best_cost = curr_cost
                     local_best_cluster = neighbor
-                    changed = True
         #if neighbors provided better cost, add it to rankings
-        if (changed):
-            rankings.append(local_best_cluster)
+        rankings.append(local_best_cluster)
+        k = local_best_cluster
         cluster_sol[local_best_cluster] = [local_best_route, local_best_dict, local_best_cost]
         
         if local_best_cost < best_cost:
@@ -83,14 +96,12 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
             best_dict = local_best_dict
             best_cost = local_best_cost
             best_cluster = local_best_cluster
+        
+        iterations += 1
 
-        #sort local optima based on cost
-        rankings.sort(reverse = True, key = lambda i: cluster_sol[i][2])
-
-        #search thru most opitmal local_min for next iteration
-        k = rankings.pop()
-
-    return cluster_sol[best_cluster][0], cluster_sol[best_cluster][1]
+    print("cost", best_cost)
+    return best_route, best_dict
+    #return cluster_sol[best_cluster][0], cluster_sol[best_cluster][1]
 
 
 """
