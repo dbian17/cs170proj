@@ -40,7 +40,7 @@ def thicc_runner(list_of_locations, list_of_homes, starting_car_location, adjace
             best_cost = cost
             best_dict = do
             best_route = cr
-        i = i + 10
+        i = i + 2
     return best_route, best_dict, best_cost
 
 
