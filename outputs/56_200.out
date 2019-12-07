@@ -1,98 +1,43 @@
-S 1M 1Aa 1Ab 1Ac 1Ac 1Ad 1Ad 1Ae 1Ae 1Af 1Ag 1Ah 1Ah 1Ai 1Ai 1Aj 1Aj 1Ak 1Ak 1Ag 1Af 1Ab 1Aa 1Ba 1Bb 1Bb 1Bc 1Bc 1Bd 1Bd 1Be 1Be 1Bf 1Bg 1Bg 1Bh 1Bh 1Bi 1Bi 1Bj 1Bj 1Bf 1Ba 1Ca 1Cb 1Cc 1Cd 1Cd 1Cc 1Cb 1Ca 1Da 1Db 1Db 1Dc 1Dc 1Dd 1Dd 1De 1De 1Da 1Ea 1Eb 1Eb 1Ec 1Ef 1Ef 1Eg 1Eg 1Eh 1Eh 1Ei 1Ei 1Ec 1Ed 1Ej 1Ej 1Ek 1Ek 1El 1El 1Em 1Em 1Ed 1Ee 1Ee 1Ea 1Fa 1Fb 1Fb 1Fc 1Fc 1Fd 1Fd 1Fe 1Fe 1Fa 1M 2M 2Aa 2Ab 2Ac 2Ac 2Ad 2Ad 2Ae 2Ae 2Af 2Ag 2Ah 2Ah 2Ai 2Ai 2Aj 2Aj 2Ak 2Ak 2Ag 2Af 2Ab 2Aa 2Ba 2Bb 2Bb 2Bc 2Bc 2Bd 2Bd 2Be 2Be 2Bf 2Bg 2Bg 2Bh 2Bh 2Bi 2Bi 2Bj 2Bj 2Bf 2Ba 2Ca 2Cb 2Cc 2Cd 2Cd 2Cc 2Cb 2Ca 2Da 2Db 2Db 2Dc 2Dc 2Dd 2Dd 2De 2De 2Da 2Ea 2Eb 2Eb 2Ec 2Ef 2Ef 2Eg 2Eg 2Eh 2Eh 2Ei 2Ei 2Ec 2Ed 2Ej 2Ej 2Ek 2Ek 2El 2El 2Em 2Em 2Ed 2Ee 2Ee 2Ea 2Fa 2Fb 2Fb 2Fc 2Fc 2Fd 2Fd 2Fe 2Fe 2Fa 2M 3M 3Aa 3Ab 3Ac 3Ac 3Ad 3Ad 3Ae 3Ae 3Af 3Ag 3Ah 3Ah 3Ai 3Ai 3Aj 3Aj 3Ak 3Ak 3Ag 3Af 3Ab 3Aa 3Ba 3Bb 3Bb 3Bc 3Bc 3Bd 3Bd 3Be 3Be 3Bf 3Bg 3Bg 3Bh 3Bh 3Bi 3Bi 3Bj 3Bj 3Bf 3Ba 3Ca 3Cb 3Cc 3Cd 3Cd 3Cc 3Cb 3Ca 3Da 3Db 3Db 3Dc 3Dc 3Dd 3Dd 3De 3De 3Da 3Ea 3Eb 3Eb 3Ec 3Ef 3Ef 3Eg 3Eg 3Eh 3Eh 3Ei 3Ei 3Ec 3Ed 3Ej 3Ej 3Ek 3Ek 3El 3El 3Em 3Em 3Ed 3Ee 3Ee 3Ea 3Fa 3Fb 3Fb 3Fc 3Fc 3Fd 3Fd 3Fe 3Fe 3Fa 3M 4M 4Aa 4Ab 4Ac 4Ac 4Ad 4Ad 4Ae 4Ae 4Af 4Ag 4Ah 4Ah 4Ai 4Ai 4Aj 4Aj 4Ak 4Ak 4Ag 4Af 4Ab 4Aa 4Ba 4Bb 4Bb 4Bc 4Bc 4Bd 4Bd 4Be 4Be 4Bf 4Bg 4Bg 4Bh 4Bh 4Bi 4Bi 4Bj 4Bj 4Bf 4Ba 4Ca 4Cb 4Cc 4Cd 4Cd 4Cc 4Cb 4Ca 4Da 4Db 4Db 4Dc 4Dc 4Dd 4Dd 4De 4De 4Da 4Ea 4Eb 4Eb 4Ec 4Ef 4Ef 4Eg 4Eg 4Eh 4Eh 4Ei 4Ei 4Ec 4Ed 4Ej 4Ej 4Ek 4Ek 4El 4El 4Em 4Em 4Ed 4Ee 4Ee 4Ea 4Fa 4Fb 4Fb 4Fc 4Fc 4Fd 4Fd 4Fe 4Fe 4Fa 4M S
-96
+S 4M 4Da 4M 4Fa 4Fe 4Fa 4M 4Ea 4Ec 4Ea 4Ed 4Ek 4Ed 4Ea 4M 4Ca 4Cb 4Cc 4Cb 4Ca 4M 4Aa 4Ab 4Af 4Ag 4Af 4M 4Bf 4Ba 4Bb 4Ba 4M S 3M 3Ea 3M 3Da 3M 3Fa 3Fe 3Fa 3M 3Ca 3Cb 3Cc 3Cb 3Ca 3M 3Aa 3Ab 3Af 3Ag 3Af 3M 3Bf 3Ba 3Bb 3Ba 3M S 2M 2Ea 2M 2Da 2M 2Fa 2Fe 2Fa 2M 2Ca 2Cb 2Cc 2Cb 2Ca 2M 2Aa 2Ab 2Af 2Ag 2Af 2M 2Bf 2Ba 2Bb 2Ba 2M S 1M 1Ea 1M 1Da 1M 1Fa 1Fe 1Fa 1M 1Ca 1Cb 1Cc 1Cb 1Ca 1M 1Aa 1Ab 1Af 1Ag 1Af 1M 1Bf 1Ba 1Bb 1Ba 1M S
+41
 1Aa 1Aa
-1Ab 1Ab
-1Ac 1Ac
-1Ad 1Ad
-1Ae 1Ae
-1Ag 1Ag
-1Ah 1Ah
-1Ai 1Ai
-1Aj 1Aj
+1Ab 1Ab 1Ac 1Ad 1Ae
+1Ag 1Ag 1Ah 1Ai 1Aj
 1Bb 1Bb
-1Bf 1Bf
-1Bi 1Bi
-1Bj 1Bj
-1Ca 1Ca
-1Cb 1Cb
-1Cc 1Cc
-1Cd 1Cd
-1Dd 1Dd
-1De 1De
-1Ee 1Ee
-1Eh 1Eh
-1Ei 1Ei
-1Ek 1Ek
+1Bf 1Bf 1Bi 1Bj
+1Ca 1Ca 1Cb
+1Cc 1Cc 1Cd
+1Da 1Dd 1De
+1Ea 1Ee 1Eh 1Ei 1Ek
 1Fe 1Fe
 2Aa 2Aa
-2Ab 2Ab
-2Ac 2Ac
-2Ad 2Ad
-2Ae 2Ae
-2Ag 2Ag
-2Ah 2Ah
-2Ai 2Ai
-2Aj 2Aj
+2Ab 2Ab 2Ac 2Ad 2Ae
+2Ag 2Ag 2Ah 2Ai 2Aj
 2Bb 2Bb
-2Bf 2Bf
-2Bi 2Bi
-2Bj 2Bj
-2Ca 2Ca
-2Cb 2Cb
-2Cc 2Cc
-2Cd 2Cd
-2Dd 2Dd
-2De 2De
-2Ee 2Ee
-2Eh 2Eh
-2Ei 2Ei
-2Ek 2Ek
+2Bf 2Bf 2Bi 2Bj
+2Ca 2Ca 2Cb
+2Cc 2Cc 2Cd
+2Da 2Dd 2De
+2Ea 2Ee 2Eh 2Ei 2Ek
 2Fe 2Fe
 3Aa 3Aa
-3Ab 3Ab
-3Ac 3Ac
-3Ad 3Ad
-3Ae 3Ae
-3Ag 3Ag
-3Ah 3Ah
-3Ai 3Ai
-3Aj 3Aj
+3Ab 3Ab 3Ac 3Ad 3Ae
+3Ag 3Ag 3Ah 3Ai 3Aj
 3Bb 3Bb
-3Bf 3Bf
-3Bi 3Bi
-3Bj 3Bj
-3Ca 3Ca
-3Cb 3Cb
-3Cc 3Cc
-3Cd 3Cd
-3Dd 3Dd
-3De 3De
-3Ee 3Ee
-3Eh 3Eh
-3Ei 3Ei
-3Ek 3Ek
+3Bf 3Bf 3Bi 3Bj
+3Ca 3Ca 3Cb
+3Cc 3Cc 3Cd
+3Da 3Dd 3De
+3Ea 3Ee 3Eh 3Ei 3Ek
 3Fe 3Fe
 4Aa 4Aa
-4Ab 4Ab
-4Ac 4Ac
-4Ad 4Ad
-4Ae 4Ae
-4Ag 4Ag
-4Ah 4Ah
-4Ai 4Ai
-4Aj 4Aj
+4Ab 4Ab 4Ac 4Ad 4Ae
+4Ag 4Ag 4Ah 4Ai 4Aj
 4Bb 4Bb
-4Bf 4Bf
-4Bi 4Bi
-4Bj 4Bj
-4Ca 4Ca
-4Cb 4Cb
-4Cc 4Cc
-4Cd 4Cd
-4Dd 4Dd
-4De 4De
-4Ee 4Ee
-4Eh 4Eh
-4Ei 4Ei
+4Bf 4Bf 4Bi 4Bj
+4Ca 4Ca 4Cb
+4Cc 4Cc 4Cd
+4Da 4Dd 4De
+4Ec 4Ee 4Eh 4Ei
 4Ek 4Ek
 4Fe 4Fe
