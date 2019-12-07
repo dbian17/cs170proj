@@ -4,7 +4,7 @@ from MST import *
 import argparse
 import utils
 from outputs import dfs_output, create_output
-
+from agglo import *
 from student_utils import *
 """
 ======================================================================
@@ -27,23 +27,42 @@ def solve(list_of_locations, list_of_homes, starting_car_location, adjacency_mat
     """
     #runner(list_of_locations, list_of_homes, starting_car_location, num_clusters, adjacency_matrix, linkage):
     
+    starting_index = [i for i in range(len(list_of_locations)) if list_of_locations[i] == starting_car_location][0]
     home_indices = [i for i in range(len(list_of_locations)) if list_of_locations[i] in list_of_homes]
 
     #k = 10
 
-    mst = kruskal(adjacency_matrix)
+    min_span_tree = kruskal(adjacency_matrix)
     min_cost = float("inf")
-    drop = {}
-    stops = []
+    min_drop = {}
+    min_stops = []
+    min_path = []
     cost = 0
 
-    for k in range(50):
-        drop = clusterify(mst, adjacency_matrix, k, home_indices)  
-        stops = [i for i in range(len(list_of_locations)) if list_of_locations[i] in drop.keys()]
-        cost = 
+    for k in range(1, len(list_of_homes) + 1):
+        distance_matrix_of_stops, stops, dropoffs, g = clusterify(np.copy(min_span_tree), adjacency_matrix, k, home_indices, starting_index)  
+        #print(distance_matrix_of_stops, starting_index[0])
+        bus_route = route(distance_matrix_of_stops, 0)
+        #print("go")
 
-    return route, drop
+        #print(bus_route)
+        #print(stops)
+        #convert bus_route index numbers to the location index numbers
+        for i in range(len(bus_route)):
+            bus_route[i] = stops[bus_route[i]]
 
+        complete_route = bus_stop_routing_to_complete_routing(bus_route, g)
+        cost, m = stu.cost_of_solution(g, complete_route, dropoffs)
+
+        if(cost < min_cost):
+            min_cost = cost
+            min_drop = dropoffs
+            min_stops = stops
+            min_path = complete_route
+        print("with " + str(i) + " stops our cost is " + str(cost))
+
+    print("-----",'\n' , len(min_stops), "stops produces", min_cost,'\n', "-----")    
+    return min_path, min_drop
 
 """
 ======================================================================
